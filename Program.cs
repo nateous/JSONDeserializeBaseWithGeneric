@@ -20,6 +20,7 @@ namespace JSONDeserializeBaseWithGeneric
             Console.WriteLine($"getList1.value: {getList1.Value}");
             var nameList = getList1.Value;
             Console.WriteLine($"nameList is null: {nameList == null}");
+            nameList.ForEach(n => Console.WriteLine($"name: {n.Name}"));
 
             var superObj = new SuperObj();
             var get2 = JsonConvert.DeserializeObject<BaseResponse<SuperObj>>(superObj.GetBaseJSON);
@@ -33,6 +34,7 @@ namespace JSONDeserializeBaseWithGeneric
             Console.WriteLine($"getList2.value: {getList2.Value}");
             var nameList2 = getList2.Value;
             Console.WriteLine($"nameList is null: {nameList2 == null}");
+            nameList2.ForEach(n => Console.WriteLine($"super: {n.SuperName}"));
 
             Console.WriteLine("Hello World!");
         }
@@ -62,6 +64,7 @@ namespace JSONDeserializeBaseWithGeneric
             ListBaseJSON = "{\"value\":[{\"Super\":\"Bob\"},{\"Super\":\"Jennifer\"},{\"Super\":\"Mary\"}]}";
         }
         public string Super { get; set; }
+        public string SuperName => $"Super {Super}";
     }
 
     public abstract class BaseResponseBase
@@ -71,9 +74,9 @@ namespace JSONDeserializeBaseWithGeneric
         public abstract object GetBaseValue();
     }
 
-    public class BaseResponse<T> : BaseResponseBase
+    public class BaseResponse<T>
     {
-        public override object GetBaseValue() { return Value; }
+        //public override object GetBaseValue() { return Value; }
 
         public T Value { get; set; }
     }
